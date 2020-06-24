@@ -1,6 +1,6 @@
 # A PHP Library for H3: A Hexagonal Hierarchical Geospatial Indexing System
 
-This project utilizes FFI to create a clean PHP wrapper around Uber's H3 C Library. The goal of this library is to minimize the complexity of creating a PHP extension and increase understanding of how this works to delegate to the C Library.
+This project utilizes FFI to create a clean PHP wrapper around Uber's H3 C Library. The goal of this library is to minimize the complexity of creating a PHP extension and increase understanding of how this works to delegate to the C Library. This library requires PHP 7.4 since it uses FFI.
 
 ## Use
 
