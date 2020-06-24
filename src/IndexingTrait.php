@@ -6,11 +6,13 @@ use FFI;
 
 trait IndexingTrait
 {
-    public function geoToH3(float $lat, float $lon, int $res) : string
+    public function geoToH3(float $lat, float $lon, int $res): string
     {
-        $ffi = FFI::cdef(self::H3IndexTypeDef.self::GeoCoordTypeDef.
+        $ffi = FFI::cdef(
+            self::H3IndexTypeDef.self::GeoCoordTypeDef.
             'H3Index geoToH3(const GeoCoord *g, int res);',
-            'libh3.dylib');
+            'libh3.dylib'
+        );
 
         $location = $ffi->new('GeoCoord');
         $location->lat = deg2rad($lat);
@@ -21,11 +23,13 @@ trait IndexingTrait
         return dechex($h3);
     }
 
-    public function h3ToGeo(string $h3Index) : object
+    public function h3ToGeo(string $h3Index): object
     {
-        $ffi = FFI::cdef(self::H3IndexTypeDef.self::GeoCoordTypeDef.
+        $ffi = FFI::cdef(
+            self::H3IndexTypeDef.self::GeoCoordTypeDef.
             'void h3ToGeo(H3Index h3, GeoCoord *g);',
-            'libh3.dylib');
+            'libh3.dylib'
+        );
 
         $dec = hexdec($h3Index);
         $geoCord = $ffi->new('GeoCoord');

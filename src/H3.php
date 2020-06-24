@@ -2,8 +2,6 @@
 
 namespace MichaelLindahl\H3;
 
-use FFI;
-
 class H3
 {
     const H3IndexTypeDef = "typedef uint64_t H3Index;\n";
