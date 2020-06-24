@@ -1,0 +1,26 @@
+{
+    "name": "michaellindahl/php-h3",
+    "description": "A PHP library for Uber's H3 C Library using FFI.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Lindahl",
+            "email": "me@michaellindahl.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "MichaelLindahl\\H3\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MichaelLindahl\\H3\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    }
+}
