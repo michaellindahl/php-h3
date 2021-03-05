@@ -17,9 +17,48 @@ $h3Index = $h3->geoToH3(40.689421843699, -74.044431399909, 10);
 
 This package is structed with `H3.php` as the main entry point and shared location of the `typedefs` used throughout the library. Each section of the [API Reference](https://h3geo.org/docs/api) is given it's own `Trait` and `Test` file to help maintain organization.
 
+## Requirements
+
+- This repository requires that the [Uber H3](https://github.com/uber/H3) C Library be installed on your machine. The following are known installation methods for various platforms:
+
+### macOS
+
+```
+brew install h3
+```
+
+### Ubuntu / Forge
+
+```
+sudo apt install cmake --assume-yes
+
+git clone https://github.com/uber/h3.git
+cd h3
+
+cmake -DBUILD_SHARED_LIBS=ON .
+make -j4
+sudo make install
+
+sudo apt remove cmake --assume-yes
+
+sudo cp /usr/local/lib/libh3.* /usr/lib/
+sudo ldconfig
+```
+
+### AWS / Vapor
+
+See my fork of `laravel/vapor-php-build` [here](https://github.com/michaellindahl/vapor-php-build/tree/uber-h3).
+
 ## Contributions
 
 Contributions are welcomed. Please be kind, both in reviewing and contributing. Follow the project goals. And include tests.
+
+## FFI / Preloading References:
+
+Here are two articles that really helped my understanding of FFI and preloading:
+
+- [PHPun with FFI: C PHP run](https://platform.sh/blog/2020/php-fun-with-ffi-c-php-run/)
+- [Introduction to PHP FFI](https://dev.to/verkkokauppacom/introduction-to-php-ffi-po3)
 
 ## Alternatives
 
