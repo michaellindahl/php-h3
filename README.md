@@ -4,10 +4,10 @@ This project utilizes FFI to create a clean PHP wrapper around Uber's H3 C Libra
 
 ## Use
 
-The test are a great place to look to see each of the supported methods in action. Not all methods of the library are supported, but please feel free to PR any missing methods that you may need.
+The test are a great place to look to see each of the supported methods in action. Currently, not all methods of the library are supported, but please feel free to PR any missing methods that you may need.
 
 ```
-$h3 = new MichaelLindahl\H3\H3();
+$h3 = new MichaelLindahl\H3\H3(H3::DYLIB);
 $h3Index = $h3->geoToH3(40.689421843699, -74.044431399909, 10);
 
 // $h3Index: '8a2a1072b59ffff'
@@ -20,3 +20,8 @@ This package is structed with `H3.php` as the main entry point and shared locati
 ## Contributions
 
 Contributions are welcomed. Please be kind, both in reviewing and contributing. Follow the project goals. And include tests.
+
+## Alternatives
+
+- [neatlife/php-h3](https://github.com/neatlife/php-h3)
+
