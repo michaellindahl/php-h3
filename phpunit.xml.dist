@@ -20,6 +20,9 @@
         </whitelist>
     </filter>
     <php>
+        <ini name="opcache.enable_cli" value="true"/>
+        <ini name="ffi.enable" value="true"/>
+        <ini name="opcache.preload" value="./src/preloading/preloader.php"/>
         <env name="DB_CONNECTION" value="testing"/>
     </php>
 </phpunit>

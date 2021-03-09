@@ -11,9 +11,9 @@ class IndexingTest extends TestCase
     public function can_convert_lat_geo_to_h3_index()
     {
         $h3 = new H3(H3::DYLIB);
-        $h3Index = $h3->geoToH3(40.689421843699, -74.044431399909, 10);
 
-        $this->assertEquals($h3Index, '8a2a1072b59ffff');
+        $this->assertEquals('8a2a1072b59ffff', $h3->geoToH3(40.689421843699, -74.044431399909, 10, false));
+        $this->assertEquals('8a2a1072b59ffff', $h3->geoToH3(40.689421843699, -74.044431399909, 10, true));
     }
 
     /** @test */

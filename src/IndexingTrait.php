@@ -8,6 +8,10 @@ trait IndexingTrait
 {
     public function geoToH3(float $lat, float $lon, int $res): string
     {
+        if (php_sapi_name() !== "cli") {
+            return (new \H3())->geoToH3($lat, $lon, $res);
+        }
+        
         $ffi = FFI::cdef(
             self::H3IndexTypeDef.self::GeoCoordTypeDef.
             'H3Index geoToH3(const GeoCoord *g, int res);',
@@ -25,6 +29,10 @@ trait IndexingTrait
 
     public function h3ToGeo(string $h3Index): object
     {
+        if (php_sapi_name() !== "cli") {
+            return (new \H3())->h3ToGeo($h3Index);
+        }
+        
         $ffi = FFI::cdef(
             self::H3IndexTypeDef.self::GeoCoordTypeDef.
             'void h3ToGeo(H3Index h3, GeoCoord *g);',
