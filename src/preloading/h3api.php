@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 // This library leverages FFI preloading and scopes. In order to use this library you need to set the following:
@@ -9,30 +10,32 @@ declare(strict_types=1);
 
 // TODO: Enable support for preloading if a http request or calling the old way if from the terminal.
 
-final class H3 {
+final class H3
+{
     private static $ffi = null;
 
-    function __construct() {
+    public function __construct()
+    {
         if (is_null(self::$ffi)) {
-            self::$ffi = FFI::scope("H3");
+            self::$ffi = FFI::scope('H3');
         }
     }
 
     // IndexInspection
 
-    function h3GetResolution(string $H3Index): int
+    public function h3GetResolution(string $H3Index): int
     {
         return self::$ffi->h3GetResolution(hexdec($H3Index));
     }
 
-    function h3IsValid(string $H3Index): bool
+    public function h3IsValid(string $H3Index): bool
     {
-        return (bool)self::$ffi->h3IsValid(hexdec($H3Index));
+        return (bool) self::$ffi->h3IsValid(hexdec($H3Index));
     }
 
     // Indexing
 
-    function geoToH3(float $lat, float $lon, int $res): string
+    public function geoToH3(float $lat, float $lon, int $res): string
     {
         $location = self::$ffi->new('GeoCoord');
         $location->lat = deg2rad($lat);
@@ -57,7 +60,7 @@ final class H3 {
 
     // HierarchicalGrid
 
-    function h3ToParent(string $H3Index, int $parentRes): string
+    public function h3ToParent(string $H3Index, int $parentRes): string
     {
         $h3 = self::$ffi->h3ToParent(hexdec($H3Index), $parentRes);
 
