@@ -19,7 +19,7 @@ This package is structed with `H3.php` as the main entry point and shared locati
 
 ## Requirements
 
-- This repository requires that the [Uber H3](https://github.com/uber/H3) C Library be installed on your machine. The following are known installation methods for various platforms:
+- This repository requires that the version 3 of the [Uber H3](https://github.com/uber/H3) C Library be installed on your machine. The following are known installation methods for various platforms:
 
 ### macOS
 
@@ -34,6 +34,7 @@ sudo apt install cmake --assume-yes
 
 git clone https://github.com/uber/h3.git
 cd h3
+git checkout stable-3.x
 
 cmake -DBUILD_SHARED_LIBS=ON .
 make -j4
