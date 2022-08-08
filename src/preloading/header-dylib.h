@@ -23,6 +23,11 @@ typedef struct {
     double lon;  
 } GeoCoord;
 
+typedef struct {
+    int numVerts;                        ///< number of vertices
+    GeoCoord verts[10];  ///< vertices in ccw order
+} GeoBoundary;
+
 // IndexInspection
 
 int h3GetResolution(H3Index h);
@@ -32,6 +37,7 @@ int h3IsValid(H3Index h);
 
 H3Index geoToH3(const GeoCoord *g, int res);
 void h3ToGeo(H3Index h3, GeoCoord *g);
+void h3ToGeoBoundary(H3Index h3, GeoBoundary *gp);
 
 // HierarchicalGrid
 

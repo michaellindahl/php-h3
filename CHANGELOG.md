@@ -2,6 +2,10 @@
 
 All notable changes to `php-h3` will be documented in this file
 
+## 2.1.0 - 2022-08-07
+
+- Adds support for `h3ToGeoBoundary` method.
+
 ## 2.0.0 - 2021-03-04
 
 - Adds `ext-ffi` as a composer dependancy.

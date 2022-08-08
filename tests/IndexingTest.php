@@ -25,4 +25,14 @@ class IndexingTest extends TestCase
         $this->assertEquals($geo->lat, 40.689421843699);
         $this->assertEquals($geo->lon, -74.044431399909);
     }
+
+    /** @test */
+    public function can_convert_h3_index_to_geoBoundary()
+    {
+        $h3 = new H3(H3::DYLIB);
+        $boundary = $h3->h3ToGeoBoundary('8a2a1072b59ffff');
+
+        $this->assertEquals($boundary[0]->lat, 40.69005860095357);
+        $this->assertEquals($boundary[0]->lon, -74.04415176176158);
+    }
 }

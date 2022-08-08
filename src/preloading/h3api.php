@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-// This library leverages FFI preloading and scopes. In order to use this library you need to set the following:
+// This class leverages FFI preloading and scopes. In order to use this class you need to set the following in your php.ini:
 // opcache.preload=preloader.php
 // opcache.preload_user=_www
 // ffi.preload=header.h
 // opcache.enable_cli=1
 
-// TODO: Enable support for preloading if a http request or calling the old way if from the terminal.
+// Any methods or objects used here must be defined in the header.h files.
 
-final class H3
+final class Preloaded_H3
 {
     private static $ffi = null;
 
@@ -56,6 +56,25 @@ final class H3
             'lat' => rad2deg($geoCord->lat),
             'lon' => rad2deg($geoCord->lon),
         ];
+    }
+
+    public function h3ToGeoBoundary(string $h3Index): array
+    {
+        $dec = hexdec($h3Index);
+        $geoBoundary = self::$ffi->new('GeoBoundary');
+        self::$ffi->h3ToGeoBoundary($dec, FFI::addr($geoBoundary));
+
+        $array = [];
+        for ($x = 0; $x <= count($geoBoundary->verts) / 2; $x++) {
+            $geoCord = $geoBoundary->verts[$x];
+
+            $array[] = (object) [
+                'lat' => rad2deg($geoCord->lat),
+                'lon' => rad2deg($geoCord->lon),
+            ];
+        }
+
+        return $array;
     }
 
     // HierarchicalGrid

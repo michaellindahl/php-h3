@@ -9,7 +9,7 @@ trait IndexingTrait
     public function geoToH3(float $lat, float $lon, int $res): string
     {
         if (php_sapi_name() !== 'cli') {
-            return (new \H3())->geoToH3($lat, $lon, $res);
+            return (new \Preloaded_H3())->geoToH3($lat, $lon, $res);
         }
 
         $ffi = FFI::cdef(
@@ -30,7 +30,7 @@ trait IndexingTrait
     public function h3ToGeo(string $h3Index): object
     {
         if (php_sapi_name() !== 'cli') {
-            return (new \H3())->h3ToGeo($h3Index);
+            return (new \Preloaded_H3())->h3ToGeo($h3Index);
         }
 
         $ffi = FFI::cdef(
@@ -49,8 +49,32 @@ trait IndexingTrait
         ];
     }
 
-    // public function h3ToGeoBoundary(string $h3Index) : object
-    // {
-    //     $ffi = FFI::cdef('void h3ToGeoBoundary(H3Index h3, GeoBoundary *gp);', $this->lib);
-    // }
+    public function h3ToGeoBoundary(string $h3Index): array
+    {
+        if (php_sapi_name() !== 'cli') {
+            return (new \Preloaded_H3())->h3ToGeoBoundary($h3Index);
+        }
+    
+        $ffi = FFI::cdef(
+            self::H3IndexTypeDef.self::GeoCoordTypeDef.self::GeoBoundaryTypeDef.
+            'void h3ToGeoBoundary(H3Index h3, GeoBoundary *gb);',
+            $this->lib
+        );
+
+        $dec = hexdec($h3Index);
+        $geoBoundary = $ffi->new('GeoBoundary');
+        $ffi->h3ToGeoBoundary($dec, FFI::addr($geoBoundary));
+
+        $array = [];
+        for ($x = 0; $x <= count($geoBoundary->verts) / 2; $x++) {
+            $geoCord = $geoBoundary->verts[$x];
+
+            $array[] = (object) [
+                'lat' => rad2deg($geoCord->lat),
+                'lon' => rad2deg($geoCord->lon),
+            ];
+        }
+
+        return $array;
+    }
 }

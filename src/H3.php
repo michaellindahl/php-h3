@@ -22,6 +22,13 @@ class H3
         double lon;  
      } GeoCoord;\n";
 
+     protected const GeoBoundaryTypeDef = "typedef struct {
+        /// number of vertices
+        int numVerts;  
+        /// vertices in ccw order
+        GeoCoord verts[10];
+     } GeoBoundary;\n";
+
     /// The dylib shared library name. In my experience this is used on Vapor and macOS.
     public const DYLIB = 'libh3.dylib';
 
