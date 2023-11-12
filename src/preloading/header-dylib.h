@@ -20,28 +20,28 @@ typedef struct {
     /// latitude in radians
     double lat;  
     /// longitude in radians
-    double lon;  
-} GeoCoord;
+    double lng;  
+} LatLng;
 
 typedef struct {
     int numVerts;                        ///< number of vertices
-    GeoCoord verts[10];  ///< vertices in ccw order
-} GeoBoundary;
+    LatLng verts[10];  ///< vertices in ccw order
+} CellBoundary;
 
 // IndexInspection
 
-int h3GetResolution(H3Index h);
-int h3IsValid(H3Index h);
+int getResolution(H3Index h);
+int isValidCell(H3Index h);
 
 // Indexing
 
-H3Index geoToH3(const GeoCoord *g, int res);
-void h3ToGeo(H3Index h3, GeoCoord *g);
-void h3ToGeoBoundary(H3Index h3, GeoBoundary *gp);
+H3Index latLngToCell(const LatLng *latLng, int res);
+void cellToLatLng(H3Index h3, LatLng *latLng);
+void cellToBoundary(H3Index h3, CellBoundary *gp);
 
 // HierarchicalGrid
 
-H3Index h3ToParent(H3Index h, int parentRes);
+H3Index cellToParent(H3Index h, int parentRes);
 
 // Misc
 

@@ -11,7 +11,7 @@ class IndexInspectionTest extends TestCase
     public function can_get_h3_resolution()
     {
         $h3 = new H3(H3::DYLIB);
-        $res = $h3->h3GetResolution('8a2a1072b59ffff');
+        $res = $h3->getResolution('8a2a1072b59ffff');
 
         $this->assertEquals($res, 10);
     }
@@ -21,7 +21,7 @@ class IndexInspectionTest extends TestCase
     {
         $h3 = new H3(H3::DYLIB);
 
-        $this->assertTrue($h3->h3IsValid('8a2a1072b59ffff'));
-        $this->assertFalse($h3->h3IsValid('8a2a1072b59f0ee'));
+        $this->assertTrue($h3->isValidCell('8a2a1072b59ffff'));
+        $this->assertFalse($h3->isValidCell('8a2a1072b59f0ee'));
     }
 }

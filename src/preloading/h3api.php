@@ -23,54 +23,54 @@ final class Preloaded_H3
 
     // IndexInspection
 
-    public function h3GetResolution(string $H3Index): int
+    public function getResolution(string $H3Index): int
     {
-        return self::$ffi->h3GetResolution(hexdec($H3Index));
+        return self::$ffi->getResolution(hexdec($H3Index));
     }
 
-    public function h3IsValid(string $H3Index): bool
+    public function isValidCell(string $H3Index): bool
     {
-        return (bool) self::$ffi->h3IsValid(hexdec($H3Index));
+        return (bool) self::$ffi->isValidCell(hexdec($H3Index));
     }
 
     // Indexing
 
-    public function geoToH3(float $lat, float $lon, int $res): string
+    public function latLngToCell(float $lat, float $lng, int $res): string
     {
-        $location = self::$ffi->new('GeoCoord');
-        $location->lat = deg2rad($lat);
-        $location->lon = deg2rad($lon);
+        $latLng = self::$ffi->new('LatLng');
+        $latLng->lat = deg2rad($lat);
+        $latLng->lng = deg2rad($lng);
 
-        $h3 = self::$ffi->geoToH3(FFI::addr($location), $res);
+        $h3 = self::$ffi->latLngToCell(FFI::addr($latLng), $res);
 
         return dechex($h3);
     }
 
-    public function h3ToGeo(string $h3Index): object
+    public function cellToLatLng(string $h3Index): object
     {
         $dec = hexdec($h3Index);
-        $geoCord = self::$ffi->new('GeoCoord');
-        self::$ffi->h3ToGeo($dec, FFI::addr($geoCord));
+        $latLng = self::$ffi->new('LatLng');
+        self::$ffi->cellToLatLng($dec, FFI::addr($latLng));
 
         return (object) [
-            'lat' => rad2deg($geoCord->lat),
-            'lon' => rad2deg($geoCord->lon),
+            'lat' => rad2deg($latLng->lat),
+            'lng' => rad2deg($latLng->lng),
         ];
     }
 
-    public function h3ToGeoBoundary(string $h3Index): array
+    public function cellToBoundary(string $h3Index): array
     {
         $dec = hexdec($h3Index);
-        $geoBoundary = self::$ffi->new('GeoBoundary');
-        self::$ffi->h3ToGeoBoundary($dec, FFI::addr($geoBoundary));
+        $cellBoundary = self::$ffi->new('CellBoundary');
+        self::$ffi->cellToBoundary($dec, FFI::addr($cellBoundary));
 
         $array = [];
-        for ($x = 0; $x <= count($geoBoundary->verts) / 2; $x++) {
-            $geoCord = $geoBoundary->verts[$x];
+        for ($x = 0; $x <= count($cellBoundary->verts) / 2; $x++) {
+            $latLng = $cellBoundary->verts[$x];
 
             $array[] = (object) [
-                'lat' => rad2deg($geoCord->lat),
-                'lon' => rad2deg($geoCord->lon),
+                'lat' => rad2deg($latLng->lat),
+                'lng' => rad2deg($latLng->lng),
             ];
         }
 
@@ -79,9 +79,9 @@ final class Preloaded_H3
 
     // HierarchicalGrid
 
-    public function h3ToParent(string $H3Index, int $parentRes): string
+    public function cellToParent(string $H3Index, int $parentRes): string
     {
-        $h3 = self::$ffi->h3ToParent(hexdec($H3Index), $parentRes);
+        $h3 = self::$ffi->cellToParent(hexdec($H3Index), $parentRes);
 
         return dechex($h3);
     }

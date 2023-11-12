@@ -15,22 +15,23 @@ class H3
 
     // Shared C declarations.
     protected const H3IndexTypeDef = "typedef uint64_t H3Index;\n";
-    protected const GeoCoordTypeDef = "typedef struct {
+    protected const H3ErrorTypeDef = "typedef uint64_t H3Error;\n";
+    protected const LatLngTypeDef = "typedef struct {
         /// latitude in radians
         double lat;  
         /// longitude in radians
-        double lon;  
-     } GeoCoord;\n";
+        double lng;  
+     } LatLng;\n";
 
-     protected const GeoBoundaryTypeDef = "typedef struct {
+     protected const CellBoundaryTypeDef = "typedef struct {
         /// number of vertices
         int numVerts;  
         /// vertices in ccw order
-        GeoCoord verts[10];
-     } GeoBoundary;\n";
+        LatLng verts[10];
+     } CellBoundary;\n";
 
     /// The dylib shared library name. In my experience this is used on Vapor and macOS.
-    public const DYLIB = 'libh3.dylib';
+    public const DYLIB = '/usr/local/lib/libh3.dylib';
 
     /// The so shared library name. In my experience this is used on Ubuntu.
     public const SO = 'libh3.so';

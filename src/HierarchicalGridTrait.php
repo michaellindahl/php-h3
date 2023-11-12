@@ -6,16 +6,19 @@ use FFI;
 
 trait HierarchicalGridTrait
 {
-    public function h3ToParent(string $H3Index, int $parentRes): string
+    public function cellToParent(string $H3Index, int $parentRes): string
     {
-        if (php_sapi_name() !== 'cli') {
-            return (new \Preloaded_H3())->h3ToParent($H3Index, $parentRes);
-        }
+        $ffi = FFI::cdef(
+            self::H3IndexTypeDef.self::H3ErrorTypeDef.
+            'H3Error cellToParent(H3Index h, int parentRes, H3Index *parent);', 
+            $this->lib
+        );
 
-        $ffi = FFI::cdef(self::H3IndexTypeDef.'H3Index h3ToParent(H3Index h, int parentRes);', $this->lib);
+        // @var FFI\CData
+        $h3 = $ffi->new('H3Index');
 
-        $h3 = $ffi->h3ToParent(hexdec($H3Index), $parentRes);
+        $ffi->cellToParent(hexdec($H3Index), $parentRes, FFI::addr($h3));
 
-        return dechex($h3);
+        return dechex($h3->cdata);
     }
 }

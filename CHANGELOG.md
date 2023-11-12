@@ -2,6 +2,10 @@
 
 All notable changes to `php-h3` will be documented in this file
 
+## 3.0.0 - 2023-11-12
+
+- Migrates to the H3 v4.0 API version.
+
 ## 2.1.0 - 2022-08-07
 
 - Adds support for `h3ToGeoBoundary` method.
