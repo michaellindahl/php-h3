@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 // This class leverages FFI preloading and scopes. In order to use this class you need to set the following in your php.ini:
-// opcache.preload=preloader.php
+// opcache.preload="…/src/preloading/preloader.php"
 // opcache.preload_user=_www
-// ffi.preload=header.h
+// ffi.preload="…/src/preloading/header-dylib.h"
 // opcache.enable_cli=1
 
 // Any methods or objects used here must be defined in the header.h files.

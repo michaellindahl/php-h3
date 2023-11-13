@@ -1,5 +1,5 @@
 #define FFI_SCOPE "H3"
-#define FFI_LIB "libh3.dylib"
+#define FFI_LIB "/usr/local/lib/libh3.dylib"
 
 // Where is H3 Library?
 // When installed via Brew on macOS:
