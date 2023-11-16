@@ -17,6 +17,16 @@ $h3Index = $h3->latLngToCell(40.689421843699, -74.044431399909, 10);
 
 This package is structed with `H3.php` as the main entry point and shared location for any constants used throughout the library. Each section of the [API Reference](https://h3geo.org/docs/api) is given it's own `Trait` and `Test` file to help maintain organization.
 
+## Building the `bin` directory
+
+In order to build the `bin` directory on macOS a cross-compiler that is capable of generating Linux objects must be used, e.g.:
+
+```
+brew install FiloSottile/musl-cross/musl-cross
+```
+
+// CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ../bin/linux-amd64/cellToParent cellToParent.go
+
 ## Contributions
 
 Contributions are welcomed. Please be kind, both in reviewing and contributing. Follow the project goals. And include tests.

@@ -10,22 +10,31 @@ if (empty($goFiles)) {
     exit(1);
 }
 
-foreach ($goFiles as $file) {
-    $output = [];
-    $returnCode = 0;
+$targets = [
+    'darwin-amd64',
+    'linux-amd64',
+//    'darwin-arm64',
+];
 
-    echo "Building ".$file."…\n";
+foreach ($targets as $target) {
+    foreach ($goFiles as $file) {
+        $output = [];
+        $returnCode = 0;
 
-    // Build the Go file
-    exec("go build -o ../bin/" . basename($file, '.go') . " $file", $output, $returnCode);
+        echo "Building $file for $target...\n";
 
-    if ($returnCode !== 0) {
-        echo "Error building $file:\n";
-        echo implode("\n", $output) . "\n";
-        exit(1);
+        // Build the Go file with cross-compilation
+        exec("GOOS=$target go build -o ../bin/$target/" . basename($file, '.go') . " $file", $output, $returnCode);
+
+        
+        if ($returnCode !== 0) {
+            echo "Error building $file:\n";
+            echo implode("\n", $output) . "\n";
+            exit(1);
+        }
+
+        echo "Built $file for $target successfully.\n";
     }
-
-    echo "Built $file successfully.\n";
 }
 
 echo "Go command-line tool build completed.\n";
