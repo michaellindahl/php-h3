@@ -10,7 +10,7 @@ class IndexInspectionTest extends TestCase
     /** @test */
     public function can_get_h3_resolution()
     {
-        $h3 = new H3(H3::DYLIB);
+        $h3 = new H3();
 
         $this->assertEquals(10, $h3->getResolution('8a2a1072b59ffff'));
 
@@ -66,7 +66,7 @@ class IndexInspectionTest extends TestCase
     /** @test */
     public function can_validate_cells()
     {
-        $h3 = new H3(H3::DYLIB);
+        $h3 = new H3();
 
         $this->assertTrue($h3->isValidCell('85283473fffffff'));
         $this->assertTrue($h3->isValidCell('821C37FFFFFFFFF'));
@@ -76,7 +76,7 @@ class IndexInspectionTest extends TestCase
     /** @test */
     public function can_find_invalid_cells()
     {
-        $h3 = new H3(H3::DYLIB);
+        $h3 = new H3();
 
         $this->assertFalse($h3->isValidCell('ff283473fffffff'));
         $this->assertFalse($h3->isValidCell('85283q73fffffff'));
