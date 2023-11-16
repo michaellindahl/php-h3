@@ -17,7 +17,7 @@ trait IndexingTrait
         return $output;
     }
 
-    public function cellToLatLng(string $h3Index): object
+    public function cellToLatLng(string $h3Index): LatLng
     {
         $output = shell_exec($this->binDirectory."/cellToLatLng $h3Index");
     
@@ -27,12 +27,14 @@ trait IndexingTrait
 
         [$lat, $lng] = explode(" ", $output);
 
-        return (object) [
-            'lat' => $lat,
-            'lng' => $lng,
-        ];
+        return new LatLng((float)$lat, (float)$lng);
     }
 
+    /**
+     * @param string $h3Index
+     * @return LatLng[]
+     * @throws \Exception
+     */
     public function cellToBoundary(string $h3Index): array
     {
         $output = shell_exec($this->binDirectory."/cellToBoundary $h3Index");
@@ -54,10 +56,7 @@ trait IndexingTrait
             [$lat, $lng] = explode(" ", $line);
 
             // Add to the array
-            $coordinates[] = (object)[
-                'lat' => $lat, 
-                'lng' => $lng
-            ];
+            $coordinates[] = new LatLng((float)$lat, (float)$lng);
         }
 
         return $coordinates;
