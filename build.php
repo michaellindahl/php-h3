@@ -11,12 +11,12 @@ if (empty($goFiles)) {
 }
 
 $targets = [
-    'darwin-amd64',
-    'linux-amd64',
+    'darwin-amd64' => "",
+    'linux-amd64' => "CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64",
 //    'darwin-arm64',
 ];
 
-foreach ($targets as $target) {
+foreach ($targets as $target => $archFlags) {
     foreach ($goFiles as $file) {
         $output = [];
         $returnCode = 0;
@@ -24,8 +24,9 @@ foreach ($targets as $target) {
         echo "Building $file for $target...\n";
 
         // Build the Go file with cross-compilation
-        exec("GOOS=$target go build -o ../bin/$target/" . basename($file, '.go') . " $file", $output, $returnCode);
+        $staticFlags = "-tags netgo -ldflags '-w -extldflags \"-static\"'";
 
+        exec("$archFlags go build -o ../bin/$target/" . basename($file, '.go') . " $file", $output, $returnCode);
         
         if ($returnCode !== 0) {
             echo "Error building $file:\n";

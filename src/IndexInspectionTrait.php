@@ -5,11 +5,11 @@ namespace MichaelLindahl\H3;
 trait IndexInspectionTrait
 {
     public function getResolution(string $h3): int {
-        return shell_exec(__DIR__."/../bin/getResolution $h3");
+        return shell_exec($this->binDirectory."/getResolution $h3");
     }
 
     function isValidCell(string $h3): bool {
-        $output = shell_exec(__DIR__."/../bin/isValidCell $h3");
+        $output = shell_exec($this->binDirectory."/isValidCell $h3");
     
         if ($output == "valid") {
             return true;
