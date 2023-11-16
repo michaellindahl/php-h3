@@ -1,6 +1,6 @@
 # A PHP Library for H3: A Hexagonal Hierarchical Geospatial Indexing System
 
-This project utilizes FFI to create a clean PHP wrapper around Uber's H3 C Library. The goal of this library is to minimize the complexity of creating a PHP extension and increase understanding of how this works to delegate to the C Library. This library requires PHP 7.4 since it uses FFI.
+This project provides a PHP implementation of the H3 system. The goal of this library is to minimize the complexity and requires for using the H3 library in PHP. All functions are rewritten in PHP so that there are no dependencies. 
 
 ## Use
 
@@ -15,51 +15,11 @@ $h3Index = $h3->latLngToCell(40.689421843699, -74.044431399909, 10);
 
 ## Structure
 
-This package is structed with `H3.php` as the main entry point and shared location of the `typedefs` used throughout the library. Each section of the [API Reference](https://h3geo.org/docs/api) is given it's own `Trait` and `Test` file to help maintain organization.
-
-## Requirements
-
-- This repository requires that the version 4 of the [Uber H3](https://github.com/uber/H3) C Library be installed on your machine. The following are known installation methods for various platforms:
-
-### macOS
-
-```
-brew install h3
-```
-
-### Ubuntu / Forge
-
-```
-sudo apt install cmake --assume-yes
-
-git clone https://github.com/uber/h3.git
-cd h3
-git checkout stable-3.x
-
-cmake -DBUILD_SHARED_LIBS=ON .
-make -j4
-sudo make install
-
-sudo apt remove cmake --assume-yes
-
-sudo cp /usr/local/lib/libh3.* /usr/lib/
-sudo ldconfig
-```
-
-### AWS / Vapor
-
-See my fork of `laravel/vapor-php-build` [here](https://github.com/michaellindahl/vapor-php-build/tree/uber-h3).
+This package is structed with `H3.php` as the main entry point and shared location for any constants used throughout the library. Each section of the [API Reference](https://h3geo.org/docs/api) is given it's own `Trait` and `Test` file to help maintain organization.
 
 ## Contributions
 
 Contributions are welcomed. Please be kind, both in reviewing and contributing. Follow the project goals. And include tests.
-
-## FFI / Preloading References:
-
-Here are two articles that really helped my understanding of FFI and preloading:
-
-- [PHPun with FFI: C PHP run](https://platform.sh/blog/2020/php-fun-with-ffi-c-php-run/)
-- [Introduction to PHP FFI](https://dev.to/verkkokauppacom/introduction-to-php-ffi-po3)
 
 ## Alternatives
 

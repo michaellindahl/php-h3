@@ -2,29 +2,21 @@
 
 namespace MichaelLindahl\H3;
 
-use FFI;
-
 trait IndexInspectionTrait
 {
-    public function getResolution(string $H3Index): int
-    {
-        if (php_sapi_name() !== 'cli') {
-            return (new \Preloaded_H3())->getResolution($H3Index);
-        }
-
-        $ffi = FFI::cdef(self::H3IndexTypeDef.'int getResolution(H3Index h);', $this->lib);
-
-        return $ffi->getResolution(hexdec($H3Index));
+    public function getResolution(string $h3): int {
+        return shell_exec(__DIR__."/../bin/getResolution $h3");
     }
 
-    public function isValidCell(string $H3Index): bool
-    {
-        if (php_sapi_name() !== 'cli') {
-            return (new \Preloaded_H3())->isValidCell($H3Index);
+    function isValidCell(string $h3): bool {
+        $output = shell_exec(__DIR__."/../bin/isValidCell $h3");
+    
+        if ($output == "valid") {
+            return true;
+        } else if ($output == "invalid") {
+            return false;
+        } else {
+            throw new \Exception("Unexpected output: $output");
         }
-
-        $ffi = FFI::cdef(self::H3IndexTypeDef.'int isValidCell(H3Index h);', $this->lib);
-
-        return $ffi->isValidCell(hexdec($H3Index));
     }
 }

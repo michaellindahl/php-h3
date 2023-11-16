@@ -10,10 +10,8 @@ class HierarchicalGridTest extends TestCase
     /** @test */
     public function can_convert_h3_index_to_parent()
     {
-        $h3 = new H3(H3::DYLIB);
-        $h3Index = $h3->cellToParent('8a2a1072b59ffff', 5);
+        $h3 = new H3();
 
-        $this->assertEquals($h3Index, '852a1073fffffff');
         $this->assertEquals('852a1073fffffff', $h3->cellToParent('8a2a1072b59ffff', 5));
         $this->assertEquals('842a107ffffffff', $h3->cellToParent('8a2a1072b59ffff', 4));
         $this->assertEquals('862a1072fffffff', $h3->cellToParent('8a2a1072b59ffff', 6));

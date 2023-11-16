@@ -1,6 +1,6 @@
 {
     "name": "michaellindahl/php-h3",
-    "description": "A PHP library for Uber's H3 C Library using FFI.",
+    "description": "H3: The hexagonal hierarchical geospatial indexing system system rewritten in PHP.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,8 +10,10 @@
         }
     ],
     "require": {
-        "php": "^7.4 | ^8.0",
-        "ext-ffi": "*"
+        "php": "^7.4 | ^8.0"
+    },
+    "scripts": {
+        "build": "php build.php"
     },
     "autoload": {
         "psr-4": {

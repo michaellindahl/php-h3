@@ -2,23 +2,16 @@
 
 namespace MichaelLindahl\H3;
 
-use FFI;
-
 trait HierarchicalGridTrait
 {
-    public function cellToParent(string $H3Index, int $parentRes): string
+    public function cellToParent(string $h3, int $parentRes): string
     {
-        $ffi = FFI::cdef(
-            self::H3IndexTypeDef.self::H3ErrorTypeDef.
-            'H3Error cellToParent(H3Index h, int parentRes, H3Index *parent);', 
-            $this->lib
-        );
+        $output = shell_exec(__DIR__."/../bin/cellToParent $h3 $parentRes");
+    
+        if (strpos($output, 'error') !== false) {
+            throw new \Exception("Unexpected output: $output");
+        }
 
-        // @var FFI\CData
-        $h3 = $ffi->new('H3Index');
-
-        $ffi->cellToParent(hexdec($H3Index), $parentRes, FFI::addr($h3));
-
-        return dechex($h3->cdata);
+        return $output;
     }
 }
