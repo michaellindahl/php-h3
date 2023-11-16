@@ -2,45 +2,60 @@ package main
 
 import (
 	"fmt"
-	"github.com/uber/h3-go/v4"
 	"os"
 	"strconv"
+	"github.com/uber/h3-go/v4"
 )
 
-func latLngToCell(indexString string, parentRes int) (string, error) {
-	// Create a Cell from the parsed H3 index
-	index := h3.IndexFromString(indexString)
+func latLngToCell(latitude float64, longitude float64, resolution int) (string, error) {
+	// Create a LatLng object
+	latLng := h3.LatLng{
+		Lat: latitude,
+		Lng: longitude,
+	}
 
-	cell := h3.Cell(index)
+	// Convert LatLng to H3 cell
+	cell := h3.LatLngToCell(latLng, resolution)
 
-	// Get the parent H3 index with the specified resolution
-	parentIndex := cell.Parent(parentRes)
+	if cell.IsValid() {
+		return cell.String(), nil
+	}
 
-	return fmt.Sprintf("%x", uint64(parentIndex)), nil
+	return "", fmt.Errorf("Invalid H3 cell for the given coordinates")
 }
 
 func main() {
-	// Check if the number of command-line arguments is correct
-	if len(os.Args) != 3 {
-		fmt.Println("Error: Usage: ./latLngToCell lat lng")
+	// Check command-line arguments
+	if len(os.Args) != 4 {
+		fmt.Println("Error Usage: latLngToCell <latitude> <longitude> <resolution>")
 		os.Exit(1)
 	}
 
-	// Get the H3 index as a string and parent resolution from the command-line arguments
-	h3IndexString := os.Args[1]
-	parentRes, err := strconv.Atoi(os.Args[2])
+	// Parse command-line arguments
+	latitude, err := strconv.ParseFloat(os.Args[1], 64)
 	if err != nil {
-		fmt.Println("Error: Parsing parent resolution:", err)
+		fmt.Println("Error parsing latitude:", err)
 		os.Exit(1)
 	}
 
-	// Get the parent H3 index
-	parentIndex, err := cellToParent(h3IndexString, parentRes)
+	longitude, err := strconv.ParseFloat(os.Args[2], 64)
+	if err != nil {
+		fmt.Println("Error parsing longitude:", err)
+		os.Exit(1)
+	}
+
+	resolution, err := strconv.Atoi(os.Args[3])
+	if err != nil {
+		fmt.Println("Error parsing resolution:", err)
+		os.Exit(1)
+	}
+
+	// Call LatLngToCell function
+	cell, err := latLngToCell(latitude, longitude, resolution)
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
 
-	// Print the parent H3 index
-	fmt.Printf("%s", parentIndex)
+	fmt.Print(cell)
 }
