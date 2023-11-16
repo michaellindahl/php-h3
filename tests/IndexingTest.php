@@ -22,8 +22,8 @@ class IndexingTest extends TestCase
     //     $h3 = new H3(H3::DYLIB);
     //     $latLng = $h3->cellToLatLng('8a2a1072b59ffff');
 
-    //     $this->assertEquals($latLng->lat, 40.689421843699);
-    //     $this->assertEquals($latLng->lng, -74.044431399909);
+    //     $this->assertEquals($latLng->lat, 40.68942184369929);
+    //     $this->assertEquals($latLng->lng, -74.04443139990863);
     // }
 
     // /** @test */
@@ -32,7 +32,7 @@ class IndexingTest extends TestCase
     //     $h3 = new H3(H3::DYLIB);
     //     $boundary = $h3->cellToBoundary('8a2a1072b59ffff');
 
-    //     $this->assertEquals($boundary[0]->lat, 40.69005860095357);
+    //     $this->assertEquals($boundary[0]->lat, 40.690058600953584);
     //     $this->assertEquals($boundary[0]->lng, -74.04415176176158);
     // }
 }
