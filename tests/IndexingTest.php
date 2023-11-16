@@ -23,7 +23,7 @@ class IndexingTest extends TestCase
         $geo = $h3->h3ToGeo('8a2a1072b59ffff');
 
         $this->assertEquals($geo->lat, 40.68942184369929);
-        $this->assertEquals($geo->lon, -74.044431399909);
+        $this->assertEquals($geo->lon, -74.04443139990863);
     }
 
     /** @test */
