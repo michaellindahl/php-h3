@@ -10,14 +10,25 @@ if (empty($goFiles)) {
     exit(1);
 }
 
+// TODO: Maybe build this using GitHub actions?
+// Right now Apple Silicon must build Apple Silicon
+// and Intel must build Intel.
 $targets = [
-    'darwin-amd64' => null,
+    // Apple Silicon macOS
+    // 'darwin-arm64' => [
+    //     'arch' => "CGO_ENABLED=1 GOOS=darwin GOARCH=arm64",
+    //     'static' => "-tags netgo -ldflags '-w -extldflags \"-static\"'",
+    // ],
+    // Intel macOS
+    'darwin-amd64' => [
+        //'arch' => "GOOS=darwin GOARCH=amd64",
+        //'static' => "-tags netgo -ldflags '-w -extldflags \"-static\"'",
+    ],
+    // Linux
     'linux-amd64' => [
         'arch' => "CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64",
         'static' => "-tags netgo -ldflags '-w -extldflags \"-static\"'",
-    ]
-    
-//    'darwin-arm64',
+    ],
 ];
 
 foreach ($targets as $target => $flags) {
@@ -32,10 +43,6 @@ foreach ($targets as $target => $flags) {
         $staticFlags = $flags['static'] ?? "";
 
         exec("$archFlags go build $staticFlags -o ../bin/$target/" . basename($file, '.go') . " $file", $output, $returnCode);
-
-        // % CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -tags netgo -ldflags '-w -extldflags "-static"' -o ../bin/linux-amd64/cellToParent cellToParent.go 
-        //   CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -tags netgo -ldflags '-w -extldflags "-static"' -o ../bin/linux-amd64/cellToParent cellToParent.goBuilt cellToParent.go
-
 
         if ($returnCode !== 0) {
             echo "Error building $file:\n";

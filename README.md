@@ -25,8 +25,6 @@ In order to build the `bin` directory on macOS a cross-compiler that is capable 
 brew install FiloSottile/musl-cross/musl-cross
 ```
 
-// CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ../bin/linux-amd64/cellToParent cellToParent.go
-
 ## Contributions
 
 Contributions are welcomed. Please be kind, both in reviewing and contributing. Follow the project goals. And include tests.
