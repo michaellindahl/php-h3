@@ -15,15 +15,15 @@ if (empty($goFiles)) {
 // and Intel must build Intel.
 $targets = [
     // Apple Silicon macOS
-    // 'darwin-arm64' => [
-    //     'arch' => "CGO_ENABLED=1 GOOS=darwin GOARCH=arm64",
-    //     'static' => "-tags netgo -ldflags '-w -extldflags \"-static\"'",
-    // ],
+     'darwin-arm64' => [
+         'arch' => "CGO_ENABLED=1 GOOS=darwin GOARCH=arm64",
+         'static' => "-ldflags '-w -s'",
+    ],
     // Intel macOS
     'darwin-amd64' => [
         //'arch' => "GOOS=darwin GOARCH=amd64",
         //'static' => "-tags netgo -ldflags '-w -extldflags \"-static\"'",
-    ],
+    ], 
     // Linux
     'linux-amd64' => [
         'arch' => "CC=x86_64-linux-musl-gcc CGO_ENABLED=1 GOOS=linux GOARCH=amd64",
@@ -31,7 +31,14 @@ $targets = [
     ],
 ];
 
+// Get target provided in command line:
+$options = getopt("", ["target:"]);
+
 foreach ($targets as $target => $flags) {
+    if (isset($options['target']) && $options['target'] != $target) {
+        continue;
+    }
+    
     foreach ($goFiles as $file) {
         $output = [];
         $returnCode = 0;
@@ -42,7 +49,9 @@ foreach ($targets as $target => $flags) {
         $archFlags = $flags['arch'] ?? "";
         $staticFlags = $flags['static'] ?? "";
 
-        exec("$archFlags go build $staticFlags -o ../bin/$target/" . basename($file, '.go') . " $file", $output, $returnCode);
+        $buildCommand = "$archFlags go build $staticFlags -o ../bin/$target/" . basename($file, '.go') . " $file";
+        echo "  % $buildCommand\n";
+        exec($buildCommand, $output, $returnCode);
 
         if ($returnCode !== 0) {
             echo "Error building $file:\n";

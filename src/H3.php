@@ -12,14 +12,16 @@ class H3
     use RegionTrait;
     use UnidirectionalEdgeTrait;
 
-    private $binDirectory;
+    public $binDirectory;
 
     public function __construct()
     {
         $architecture = php_uname('m');
         $os = php_uname('s');
 
-        if ($architecture === 'x86_64' && $os === 'Darwin') {
+        if ($architecture === 'arm64' && $os === 'Darwin') {
+            $this->binDirectory = __DIR__.'/../bin/darwin-arm64';
+        } else if ($architecture === 'x86_64' && $os === 'Darwin') {
             $this->binDirectory = __DIR__.'/../bin/darwin-amd64';
         } elseif ($architecture === 'x86_64' && $os === 'Linux') {
             $this->binDirectory = __DIR__.'/../bin/linux-amd64';
